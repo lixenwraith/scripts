@@ -27,7 +27,7 @@ print_usage() {
   echo "  -a arch        : Target architecture. Default: current architecture ($(go env GOARCH))."
   echo "                   Acceptable values: $VALID_ARCH"
   echo "  -s source      : Source file or path. Default: ./main.go"
-  echo "  -b binary      : Executable binary file or path. Default: ./main"
+  echo "  -t target      : Executable binary file or path. Default: ./main"
   echo "  -c config_file : Specify a custom configuration file."
   echo "Options can appear in any order."
   echo "A 'conf.make' file in the current directory is loaded by default if it exists."
@@ -44,7 +44,7 @@ if [ -f "conf.make" ]; then
       -o\ *) TARGET_OS="${line#*-o }" ;;
       -a\ *) TARGET_ARCH="${line#*-a }" ;;
       -s\ *) SRC_PATH="${line#*-s }" ;;
-      -b\ *) EXEC_PATH="${line#*-b }" ;;
+      -t\ *) EXEC_PATH="${line#*-t }" ;;
       *) ;;  # Ignore lines that don't match the pattern
     esac
   done < "conf.make"
@@ -70,7 +70,7 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
-    -b)
+    -t)
       EXEC_PATH="$2"
       shift # past argument
       shift # past value
@@ -105,7 +105,7 @@ if [ -n "$CUSTOM_CONFIG" ]; then
       -o\ *) TARGET_OS="${line#*-o }" ;;
       -a\ *) TARGET_ARCH="${line#*-a }" ;;
       -s\ *) SRC_PATH="${line#*-s }" ;;
-      -b\ *) EXEC_PATH="${line#*-b }" ;;
+      -t\ *) EXEC_PATH="${line#*-t }" ;;
       *) ;;  # Ignore lines that don't match the pattern
     esac
   done < "$CUSTOM_CONFIG"
