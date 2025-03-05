@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+# --- Initialization ---
+set -eux  # Enchanced debugging and error handling
 
 # Function to install an application as a service
 install_service() {
@@ -137,7 +140,7 @@ fi
 
 # Install each application as a service
 for app in "$@"; do
-    install_service "$app" "$run_as_root" "$no_log" || exit 1
+    install_service "$app" "$run_as_root" "$no_log" "$no_config" || exit 1
 done
 
 echo "All applications installed and started successfully."

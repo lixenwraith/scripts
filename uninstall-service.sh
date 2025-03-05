@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+# --- Initialization ---
+set -eux  # Enchanced debugging and error handling
 
 # Function to uninstall a service
 uninstall_service() {
@@ -40,12 +43,6 @@ uninstall_service() {
     if pw user show "$app_name" >/dev/null 2>&1; then
         echo "Removing user and group..."
         pw userdel "$app_name"
-    fi
-
-    # Remove directories and files
-    if [ -d "/var/log/$app_name" ]; then
-        echo "Removing log directory..."
-        rm -rf "/var/log/$app_name"
     fi
 
     # Remove logs
@@ -102,7 +99,7 @@ fi
 
 # Process each service
 for service in "$@"; do
-    uninstall_service "$service" || {
+    uninstall_service "$service" "$keep_logs" "$keep_config" || {
         echo "Error uninstalling $service. Aborting..."
         exit 1
     }

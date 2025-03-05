@@ -8,4 +8,4 @@ Common bash/pthon scripts I use across my projects, built around FreeBSD server 
 - install-app.sh : install an executable as an app, creating config, log directories, and sets up permissions.
 - uninstall-app.sh : reverses previous script.
 - dbprint-sqlite3.py : prints all the content of a sqlite db file.
-- linecount.py : line countes of Go files in the current direcotry and sub-directories.
+- linecount-go.py : line countes of Go files in the current direcotry and sub-directories.

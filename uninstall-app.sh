@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+# --- Initialization ---
+set -eux  # Enchanced debugging and error handling
 
 # Function to uninstall an application
 uninstall_app() {
