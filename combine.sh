@@ -38,15 +38,41 @@ loop_errors=0 # Counter for errors inside the loop
 echo "--- Counters Initialized (files=$file_count, lines=$total_lines, skipped=$skipped_count, loop_errors=$loop_errors) ---" >&2
 
 # --- Functions ---
+# UPDATED usage function with detailed descriptions
 usage() {
-  echo "Usage: $0 [options] <dir1> [dir2] ..." >&2
-  # ... (usage message remains the same) ...
+  cat << EOF >&2
+Usage: $0 [options] <dir1> [dir2] ...
+
+A utility to combine multiple text files from specified directories into a single file.
+Each included file's content is preceded by a header comment indicating its original path.
+
+Options:
+  -o <file>     Specify the path for the output file.
+                If not provided, defaults to '${DEFAULT_OUTPUT_FILE}'.
+
+  -e <ext>      Filter files by a specific extension (e.g., 'py', 'txt', 'md').
+                The leading dot is optional and will be added if missing.
+                If omitted, all files are included.
+
+  -r            Enable recursive search. The script will look for files in the
+                specified directories and all of their subdirectories.
+
+  -h, --help    Display this help message and exit.
+
+Arguments:
+  <dir>         One or more directories to scan for files. This is a required
+                argument.
+
+Example:
+  # Recursively find all '.js' and '.css' files in the 'src' directory
+  # and combine them into a single file named 'project-bundle.txt'.
+  $0 -r -e js -o project-bundle.txt ./src/
+EOF
   exit 1
 }
 echo "--- Usage Function Defined ---" >&2
 
 # --- Argument Parsing ---
-# ... (argument parsing remains the same) ...
 echo "--- Starting Argument Parsing ---" >&2
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -69,14 +95,12 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 echo "--- Finished Argument Parsing ---" >&2
-# ... (debug prints for final values remain the same) ...
 echo "DEBUG: Final DIRS_TO_SCAN: ${DIRS_TO_SCAN[*]}" >&2
 echo "DEBUG: Final OUTPUT_FILE: '$OUTPUT_FILE'" >&2
 echo "DEBUG: Final FILE_EXTENSION: '$FILE_EXTENSION'" >&2
 echo "DEBUG: Final RECURSIVE: $RECURSIVE" >&2
 
 # --- Validation ---
-# ... (validation remains the same) ...
 echo "--- Starting Validation ---" >&2
 if [[ ${#DIRS_TO_SCAN[@]} -eq 0 ]]; then echo -e "${RED}Error:${NC} No directories specified." >&2; usage; fi
 echo "--- Validation Passed ---" >&2
@@ -200,7 +224,6 @@ combine_files() {
 }
 
 # --- Output Handling ---
-# ... (determining output file path remains the same) ...
 echo "--- Determining Output File ---" >&2
 FINAL_OUTPUT_FILE="${OUTPUT_FILE:-$DEFAULT_OUTPUT_FILE}"
 echo "DEBUG: Raw FINAL_OUTPUT_FILE='$FINAL_OUTPUT_FILE'" >&2
